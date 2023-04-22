@@ -1,10 +1,7 @@
-from django.contrib import admin
-#from django.urls import path
+from django.urls import path
+from products.views import products
 
-#from products.views import index,products
-#
-#urlpatterns = [
-#    path('', index, name='index'),
-#    path('products/', index, name='products'),
-#]
-#
+app_name = 'products'
+urlpatterns = [
+    path('', products, name='index'),
+]
