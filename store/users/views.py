@@ -1,8 +1,9 @@
 from django.shortcuts import render, reverse
 from django.views import View
 from users.models import User
-from .forms import UserLoginForm, UserRegisterForm
+from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from django.contrib.auth import authenticate, login
+from django.contrib import auth,messages
 from django.http import HttpResponseRedirect
 
 
@@ -32,12 +33,29 @@ class SignUpView(View):
         })
 
     def post(self, request):
-        form = UserRegisterForm(request.POST)
+        form = UserRegisterForm(data=request.POST)
         if form.is_valid():
-            user = form.save()
-            if user is not None:
-                login(request, user)
-                return HttpResponseRedirect('/')
+            form.save()
+            messages.success(request, 'Вы успешно зарегистрированы!')
+            return HttpResponseRedirect(reverse('users:login'))
         return render(request, 'users/register.html', context={
             'form': form
         })
+
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(instance=request.user,data=request.POST,files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('users:profile'))
+    else:
+        form = UserProfileForm(instance=request.user)
+    return render(request, 'users/profile.html', context={
+        'title': 'Store - Профиль',
+        'form': form,
+    })
+
+
+def logout(request):
+    return HttpResponseRedirect(reverse('/index'))
