@@ -1,7 +1,7 @@
 from django.shortcuts import render, reverse
 from django.views import View
 from users.models import User
-from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from . forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from django.contrib.auth import authenticate, login
 from django.contrib import auth,messages
 from django.http import HttpResponseRedirect
