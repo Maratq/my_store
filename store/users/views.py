@@ -1,10 +1,12 @@
 from django.shortcuts import render, reverse
 from django.views import View
-from users.models import User
+from .models import User
 from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from django.contrib.auth import authenticate, login
-from django.contrib import auth,messages
+from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
+from products.models import Basket
+from django.contrib.auth.decorators import login_required
 
 
 class SignInView(View):
@@ -43,19 +45,21 @@ class SignUpView(View):
         })
 
 
+@login_required
 def profile(request):
     if request.method == 'POST':
-        form = UserProfileForm(instance=request.user,data=request.POST,files=request.FILES)
+        form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))
     else:
         form = UserProfileForm(instance=request.user)
+
     return render(request, 'users/profile.html', context={
         'title': 'Store - Профиль',
         'form': form,
+        'baskets': Basket.objects.filter(user=request.user),
     })
 
-
-def logout(request):
-    return HttpResponseRedirect(reverse('/index'))
+# def logout(request):
+#   return HttpResponseRedirect(reverse('/index'))

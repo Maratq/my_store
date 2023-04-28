@@ -3,7 +3,7 @@
     "model": "products.productcategory",
     "pk": 1,
     "fields": {
-      "name": "Одежда",
+      "name": "РћРґРµР¶РґР°",
       "description": ""
     }
   },
@@ -11,7 +11,7 @@
     "model": "products.productcategory",
     "pk": 2,
     "fields": {
-      "name": "Обувь",
+      "name": "РћР±СѓРІСЊ",
       "description": ""
     }
   },
@@ -19,7 +19,7 @@
     "model": "products.productcategory",
     "pk": 3,
     "fields": {
-      "name": "Новинки",
+      "name": "РќРѕРІРёРЅРєРё",
       "description": ""
     }
   },
@@ -27,7 +27,7 @@
     "model": "products.productcategory",
     "pk": 4,
     "fields": {
-      "name": "Аксессуары",
+      "name": "РђРєСЃРµСЃСЃСѓР°СЂС‹",
       "description": ""
     }
   },
@@ -35,7 +35,7 @@
     "model": "products.productcategory",
     "pk": 5,
     "fields": {
-      "name": "Подарки",
+      "name": "РџРѕРґР°СЂРєРё",
       "description": ""
     }
   }
