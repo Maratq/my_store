@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from products.models import ProductCategory, Product, Basket
 from users.models import User
 from django.http import HttpResponseRedirect
