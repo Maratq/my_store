@@ -13,11 +13,12 @@ def index(request):
     })
 
 
-def products(request):
+def products(request, category_id=None):
+    products = Product.objects.filter(category=category_id) if category_id else Product.objects.all()
     return render(request, 'products/products.html', context={
         'title': 'Store - Каталог',
-        'products': Product.objects.all(),
         'categories': ProductCategory.objects.all(),
+        'products': products,
     })
 
 

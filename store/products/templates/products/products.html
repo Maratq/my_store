@@ -3,7 +3,6 @@
 
 {% block css %}
 <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
-<link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +15,10 @@
             <h1 class="my-4">Store</h1>
             <div class="list-group">
                 {% for category in categories %}
-                <a href="#" class="list-group-item">{{ category.name }}</a>
+                    <a href="{% url 'products:category' category.id %}" class="list-group-item">
+                        {{ category.name }}
+                    </a>
+
                 {% endfor %}
             </div>
 
