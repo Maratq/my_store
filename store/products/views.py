@@ -1,29 +1,31 @@
-from django.shortcuts import render
 from products.models import ProductCategory, Product, Basket
-from users.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from store.common.views import TitleMixin
 
 
-def index(request):
-    return render(request, 'products/index.html', context={
-        'title': 'My store',
-
-    })
+class IndexView(TitleMixin, TemplateView):
+    template_name = 'products/index.html'
+    title = 'My store'
 
 
-def products(request, category_id=None, page_number=1):
-    products = Product.objects.filter(category=category_id) if category_id else Product.objects.all()
-    per_page = 3
-    paginator = Paginator(products,per_page)
-    products_paginator = paginator.page(page_number)
+class ProductsListView(ListView):
+    model = Product
+    template_name = 'products/products.html'
+    paginate_by = 3
 
-    return render(request, 'products/products.html', context={
-        'title': 'Store - Каталог',
-        'categories': ProductCategory.objects.all(),
-        'products': products_paginator,
-    })
+    def get_queryset(self):
+        queryset = super(ProductsListView, self).get_queryset()
+        category_id = self.kwargs.get('category_id')
+        return queryset.filter(category_id=category_id) if category_id else queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductsListView, self).get_context_data()
+        context['title'] = 'Store - Каталог'
+        context['categories'] = ProductCategory.objects.all()
+        return context
 
 
 @login_required
