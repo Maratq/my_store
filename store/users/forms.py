@@ -17,7 +17,7 @@ class UserLoginForm(AuthenticationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password',)
+        fields = ('username', 'password')
 
 
 class UserRegisterForm(UserCreationForm):
@@ -44,13 +44,13 @@ class UserRegisterForm(UserCreationForm):
 
     }))
 
-    password1 = forms.CharField(widget=forms.TextInput(attrs={
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control py-4',
         'placeholder': 'Введите пароль'
 
     }))
 
-    password2 = forms.CharField(widget=forms.TextInput(attrs={
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control py-4',
         'placeholder': 'Подтвердите пароль'
 
