@@ -22,7 +22,6 @@
 
 <body>
 
-<!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{% url 'index' %}">Store</a>
@@ -36,6 +35,7 @@
                     <a class="nav-link" href="{% url 'products:index' %}">Каталог <i class="fas fa-shopping-bag"></i>
                     </a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,27 +45,28 @@
                         <li>
                             <a class="dropdown-item" href="{% url 'users:profile' user.id %}">Профиль</a>
                         </li>
-                        <li><a class="dropdown-item" href="orders/orders.html">Заказы</a></li>
                         {% if user.is_superuser or user.is_staff %}
-                            <li>
-                                <a class="dropdown-item" href="{% url 'admin:index' %}">
-                                    Админ-панель
-                                </a>
-                            </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'admin:index' %}">
+                                Админ-панель
+                            </a>
+                        </li>
                         {% endif %}
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item" href="">
+                            <a class="dropdown-item" href="{% url 'users:logout' %}">
                                 Выйти
                             </a>
                         </li>
                     </ul>
                 </li>
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'users:login' %}">Войти <i class="fas fa-sign-in-alt"></i></a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>
