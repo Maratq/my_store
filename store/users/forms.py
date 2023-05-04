@@ -49,7 +49,7 @@ class UserRegisterForm(UserCreationForm):
 
     }))
 
-    email = forms.CharField(widget=forms.EmailInput(attrs={
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
         'class': 'form-control py-4',
         'placeholder': 'Введите адрес эл. почты'
 
@@ -84,7 +84,7 @@ class UserProfileForm(UserChangeForm):
     }))
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'readonly': True, }),
                                required=False)
-    email = forms.CharField(widget=forms.TextInput(attrs={
+    email = forms.EmailField(widget=forms.TextInput(attrs={
         'class': 'form-control py-4 ',
         'readonly': True,
     }))
