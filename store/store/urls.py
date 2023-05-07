@@ -25,7 +25,9 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('products/', include('products.urls'), name='products'),
     path('users/', include('users.urls'), name='users'),
+    path('orders/', include('orders.urls'), name='order'),
 ]
 
 if settings.DEBUG:
+    urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
