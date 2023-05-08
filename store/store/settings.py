@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    #'debug_toolbar',
+    'debug_toolbar',
 
     'products',
     'users',
@@ -156,12 +156,6 @@ LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Sending email
-# EMAIL_HOST = 'smtp.yandex.com'
-# EMAIL_PORT = '465'
-# EMAIL_HOST_USER = 'maver.a@yandex.ru'
-# EMAIL_HOST_PASSWORD = 'wlngwwoyqhyztqft'#
-# EMAIL_USE_SSL = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTHENTICATION_BACKENDS = [
