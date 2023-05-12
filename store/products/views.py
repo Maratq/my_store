@@ -37,7 +37,7 @@ def basket_add(request, product_id):
     if not baskets.exists():
         Basket.objects.create(user=request.user, product=product, quantity=1)
     else:
-        basket = baskets.first()
+        basket = baskets.get()
         basket.quantity += 1
         basket.save()
 
