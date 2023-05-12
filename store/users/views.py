@@ -20,7 +20,7 @@ class UserLoginView(TitleMixin, LoginView):
 class UserRegisterView(TitleMixin, SuccessMessageMixin, CreateView):
     model = User
     form_class = UserRegisterForm
-    template_name = 'users/register.html'
+    template_name = 'users/registration.html'
     success_url = reverse_lazy('users:login')
     success_message = 'Вы успешно зарегистрированы!'
     title = 'Store - Регистрация'
