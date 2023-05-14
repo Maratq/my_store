@@ -32,6 +32,18 @@ class Product(models.Model):
         verbose_name = 'product'
         verbose_name_plural = 'products'
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.stripe_product_price_id:
+            stripe_product_price = self.create_stripe_product_price()
+            self.stripe_product_price_id = stripe_product_price['id']
+        super(Product, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
+
+    def create_stripe_product_price(self):
+        stripe_product = stripe.Product.create(name=self.name)
+        stripe_product_price = stripe.Price.create(
+            product=stripe_product['id'], unit_amount=round(self.price * 100), currency='rub')
+        return stripe_product_price
+
     def __str__(self):
         return f'Продукт: {self.name} | Категория: {self.category.name}'
 
@@ -67,3 +79,12 @@ class Basket(models.Model):
 
     def sum(self):
         return self.product.price * self.quantity
+
+    def de_json(self):
+        basket_item = {
+            'product_name': self.product.name,
+            'quantity': self.quantity,
+            'price': float(self.product.price),
+            'sum': float(self.sum()),
+        }
+        return basket_item
