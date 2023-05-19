@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
 
 from products.models import Basket
@@ -27,7 +26,7 @@ class Order(models.Model):
     status = models.PositiveSmallIntegerField(default=CREATED, choices=STATUSES)
 
     def __str__(self):
-        return f'Order # {self.id} {self.first_name} {self.last_name}'
+        return f'Order # {self.id}. {self.first_name} {self.last_name}'
 
     def update_after_payment(self):
         baskets = Basket.objects.filter(user=self.initiator)

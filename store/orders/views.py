@@ -31,7 +31,7 @@ class OrderListView(TitleMixin, ListView):
     template_name = 'orders/orders.html'
     title = 'Store - Заказы'
     queryset = Order.objects.all()
-    ordering = ('-created')
+    ordering = ('-created',)
 
     def get_queryset(self):
         queryset = super(OrderListView, self).get_queryset()
