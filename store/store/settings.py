@@ -9,24 +9,26 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
+from dotenv import find_dotenv, load_dotenv
+
+load_dotenv(find_dotenv())
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(duf(%&bigh5k*08+rh8(-c%)ry#hi^g^m!-3r74dw6x*z5783'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-DOMAIN_NAME = 'http://localhost:8000'
+DOMAIN_NAME = os.environ.get("DOMAIN_NAME")
 
 # Application definition
 
@@ -38,17 +40,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django_extensions',
+    'django.contrib.humanize',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'debug_toolbar',
+    'django_extensions',
+    'rest_framework',
+    'rest_framework.authtoken',
 
     'products',
     'users',
     'orders',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -67,9 +73,7 @@ ROOT_URLCONF = 'store.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'course/store-server/store/products/templates',
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'products.context_processors.baskets',
             ],
         },
     },
@@ -95,11 +100,11 @@ INTERNAL_IPS = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "store_db",
-        "USER": "store_username",
-        "PASSWORD": "store_password",
-        "HOST": "localhost",
-        "PORT": "5433",
+        "NAME": os.environ.get("DATABASES_NAME"),
+        "USER": os.environ.get("DATABASES_USER"),
+        "PASSWORD": os.environ.get("DATABASES_PASSWORD"),
+        "HOST": os.environ.get("DATABASES_HOST"),
+        "PORT": os.environ.get("DATABASES_PORT"),
     }
 }
 # Password validation
@@ -137,10 +142,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# if DEBUG:
+#    STATICFILES_DIRS = [
+#        BASE_DIR / 'static'
+#    ]
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -151,12 +158,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Users
+
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+# Sending emails
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# OAuth
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -173,7 +184,18 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# STRIPE
 
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET_KEY = os.environ.get("STRIPE_WEBHOOK_SECRET_KEY")
 
-STRIPE_PUBLIC_KEY = 'pk_test_51N6AHjCBDDz8mifbaiC8MlDyQgtSaaAKcgaQtePbrMqHosqdnvrDlVXtNM8ZaYyn4ZWdZOm8IYZ4BmCwkY6sL27U00bH57JcSD'
-STRIPE_SECRET_KEY = 'sk_test_51N6AHjCBDDz8mifbE8jASynwoUQWq8VkgkHNJGReByOHuvlGyacXCDnIqJdcVy2DJzPbieR6DNUtOpuUCd9d1m9F00JWiHSFss'
+# DJANGO_REST_FRAMEWORK
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
