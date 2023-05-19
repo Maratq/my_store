@@ -303,3 +303,11 @@ cython_debug/
 #.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/django
+*.css
+*.map
+store/static/vendor/jquery/jquery.slim.min.js
+store/static/vendor/jquery/jquery.min.js
+store/static/vendor/js/auth-admin.js
+store/static/vendor/js/datatable.js
+*.js
+*.jpg
