@@ -6,7 +6,6 @@ The project for study Django.
 
 - [Python](https://www.python.org/downloads/)
 - [PostgreSQL](https://www.postgresql.org/)
-- [Redis](https://redis.io/)
 
 ## Local Developing
 
@@ -31,12 +30,4 @@ All actions should be executed from the source directory of the project and only
    ./manage.py runserver 
    ```
    
-4. Run [Redis Server](https://redis.io/docs/getting-started/installation/):
-   ```bash
-   redis-server
-   ```
    
-5. Run Celery:
-   ```bash
-   celery -A store worker --loglevel=INFO
-   ```
